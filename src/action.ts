@@ -5,12 +5,8 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { generateToken } from "./lib/utils";
-import { LoginCredentials } from "./lib/auth-types";
-import { account } from "./lib/appwrite.config";
-import { cookies } from "next/headers";
-import { Models } from "appwrite";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
-
 export type State = {
   status: "error" | "success" | undefined;
   errors?: {
@@ -31,6 +27,20 @@ const checkoutSchema = z.object({
 });
 
 export async function createVisitor(formdata: FormData) {
+  const { getUser,getPermission } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/api/auth/login");
+  }
+
+  const requiredPermission = await getPermission("create:visitor");
+  console.log("Hey permissions are here", requiredPermission);
+  if (!requiredPermission?.isGranted) {
+    redirect("/");
+  }
+
+
   const name = formdata.get("name") as string;
   const email = formdata.get("email") as string;
   const phone = formdata.get("phone") as string;
@@ -55,6 +65,19 @@ export async function createVisitor(formdata: FormData) {
 }
 
 export async function getVisitors(query: string) {
+  const { getUser,getPermission } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/api/auth/login");
+  }
+
+  const requiredPermission = await getPermission("create:visitor");
+  console.log("Hey permissions are here", requiredPermission);
+  if (!requiredPermission?.isGranted) {
+    redirect("/");
+  }
+
   try {
     const visitors = await prisma.visitor.findMany({
       where: {
@@ -82,6 +105,19 @@ export async function getVisitors(query: string) {
 }
 
 export async function exportVisitorsToCSV() {
+  const { getUser,getPermission } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/api/auth/login");
+  }
+
+  const requiredPermission = await getPermission("create:visitor");
+  console.log("Hey permissions are here", requiredPermission);
+  if (!requiredPermission?.isGranted) {
+    redirect("/");
+  }
+
   try {
     // Fetch all visitors from the database
     const visitors = await prisma.visitor.findMany({
@@ -124,6 +160,19 @@ export async function exportVisitorsToCSV() {
 }
 
 export async function updateCheckOut(prevState: any, formdata: FormData) {
+  const { getUser,getPermission } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/api/auth/login");
+  }
+
+  const requiredPermission = await getPermission("create:visitor");
+  console.log("Hey permissions are here", requiredPermission);
+  if (!requiredPermission?.isGranted) {
+    redirect("/");
+  }
+
   try {
     const parsedFields = checkoutSchema.safeParse({
       visitorId: formdata.get("visitorId"),
@@ -155,69 +204,5 @@ export async function updateCheckOut(prevState: any, formdata: FormData) {
     return state;
   } catch (error) {
     console.log(error);
-  }
-}
-
-export async function login(credentials: LoginCredentials) {
-  try {
-    const session = await account.createEmailPasswordSession(
-      credentials.email,
-      credentials.password
-    );
-
-    // Store the session token in a secure HTTP-only cookie
-    const cookieStore = cookies();
-    cookieStore.set("appwrite_session", session.userId, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-    });
-
-    return { success: true, session };
-  } catch (error) {
-    console.error("Login error:", error);
-    return {
-      success: false,
-      error: "Invalid credentials",
-    };
-  }
-}
-
-export async function getCurrentUser() {
-  try {
-    const user = (await account.get()) as Models.User<Models.Preferences>;
-    return {
-      id: user.$id,
-      email: user.email,
-      name: user.name,
-    };
-  } catch (error) {
-    return null;
-  }
-}
-
-export async function logout() {
-  try {
-    try {
-      // Try to delete the current session from Appwrite
-      await account.deleteSession("current");
-    } catch (error) {
-      // If session deletion fails, we'll just continue with local cleanup
-      console.log("Session already invalid or expired:", error);
-    }
-
-    // Always clear the local cookie, regardless of Appwrite session status
-    const cookieStore = cookies();
-    cookieStore.delete("appwrite_session");
-
-    // Redirect to login page
-    redirect("/login");
-  } catch (error) {
-    console.error("Logout error:", error);
-    // Even if something goes wrong, we should clear the cookie and redirect
-    const cookieStore = cookies();
-    cookieStore.delete("appwrite_session");
-    redirect("/login");
   }
 }
