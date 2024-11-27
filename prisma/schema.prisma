@@ -17,6 +17,8 @@ model Visitor{
   phone String
   purpose String
   token String
+  address String
+  visitingTo String?
   checkIn DateTime @default(now())
   checkOut DateTime?
 }

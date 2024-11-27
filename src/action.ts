@@ -19,6 +19,8 @@ const visitorSchema = z.object({
   name: z.string().min(3),
   email: z.string().email(),
   phone: z.string().min(10),
+  address:z.string().min(3,{message:"Address is required"}).max(255,{message:"Address is too long"}),
+  tomeet:z.string().optional(),
   purpose: z.string().min(3),
 });
 
@@ -26,7 +28,7 @@ const checkoutSchema = z.object({
   visitorId: z.string(),
 });
 
-export async function createVisitor(formdata: FormData) {
+export async function createVisitor(prevState:any, formdata: FormData) {
   const { getUser,getPermission } = getKindeServerSession();
   const user = await getUser();
 
@@ -41,21 +43,36 @@ export async function createVisitor(formdata: FormData) {
   }
 
 
-  const name = formdata.get("name") as string;
-  const email = formdata.get("email") as string;
-  const phone = formdata.get("phone") as string;
-  const purpose = formdata.get("purpose") as string;
+  const parsedFields = visitorSchema.safeParse({
+    name: formdata.get('name'),
+    email: formdata.get('email'),
+    phone: formdata.get('phone'),
+    address: formdata.get('address'),
+    tomeet: formdata.get('tomeet'),
+    purpose: formdata.get('purpose'),
+  })
+
+  if (!parsedFields.success) {
+    const state: State = {
+      status: "error",
+      errors: parsedFields.error.flatten().fieldErrors,
+      message: "Oops!! Something Wrong with the input fields.",
+    };
+    return state;
+  }
 
   const token = await generateToken();
 
   try {
     await prisma.visitor.create({
       data: {
-        name: name,
-        email: email,
-        phone: phone,
-        purpose: purpose,
-        token: token,
+        name: parsedFields.data.name,
+        email: parsedFields.data.email,
+        phone: parsedFields.data.phone,
+        address: parsedFields.data.address,
+        visitingTo: parsedFields.data.tomeet,
+        purpose: parsedFields.data.purpose,
+        token: token
       },
     });
     revalidatePath("/");
