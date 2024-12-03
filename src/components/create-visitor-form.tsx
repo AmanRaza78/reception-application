@@ -7,6 +7,7 @@ import { Textarea } from "./ui/textarea";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { useFormState } from "react-dom";
+import { revalidateCheckout } from "@/lib/revalidate-checkout";
 
 export default function CreateVisitorForm() {
   const initalState: State = { message: "", status: undefined };
@@ -15,6 +16,7 @@ export default function CreateVisitorForm() {
   useEffect(() => {
     if (state?.status === "success") {
       toast.success(state?.message);
+      revalidateCheckout()
     } else if (state?.status === "error") {
       toast.error(state?.message);
     }

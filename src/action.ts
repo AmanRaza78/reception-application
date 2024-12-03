@@ -75,7 +75,11 @@ export async function createVisitor(prevState:any, formdata: FormData) {
         token: token
       },
     });
-    revalidatePath("/");
+    const state: State ={
+      status: "success",
+      message: "Welcome to Joboxhire!",
+    }
+    return state;
   } catch (error) {
     console.log(error);
   }
