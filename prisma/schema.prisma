@@ -10,6 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User{
+  id String @id @default(uuid())
+  firstName String
+  lastName String
+  email String
+  profilepicture String?
+}
+
 model Visitor{
   id String @id @default(uuid())
   name String
