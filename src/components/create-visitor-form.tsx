@@ -1,3 +1,4 @@
+"use client"
 import { createVisitor, type State } from "@/action";
 import SubmitButton from "./submit-button";
 import { CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
