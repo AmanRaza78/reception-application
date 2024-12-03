@@ -16,7 +16,6 @@ export default async function Visitors({
 }) {
   const { getUser,getPermission } = getKindeServerSession();
   const user = await getUser();
-  console.log("Hey aman user is here", user);
 
   if (!user) {
     return redirect("/api/auth/login");

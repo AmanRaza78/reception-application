@@ -1,17 +1,15 @@
 "use server";
-import { getVisitors, updateCheckOut } from "@/action";
+import { getVisitors} from "@/action";
 
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { Button } from "./ui/button";
 import CheckoutButton from "./checkout-button";
 
 export default async function DataTable({ query }: { query: string }) {
