@@ -106,11 +106,13 @@ export async function getVisitors(query: string) {
           {
             name: {
               contains: query,
+              mode: 'insensitive',
             },
           },
           {
             email: {
               contains: query,
+              mode: 'insensitive',
             },
           },
         ],

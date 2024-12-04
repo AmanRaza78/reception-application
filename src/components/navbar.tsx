@@ -12,9 +12,12 @@ const Navbar = async () => {
       aria-label="Global"
     >
       <div className="container flex items-center justify-between">
+        <div className="flex items-center gap=x-4">
         <Link href="/">
-          <h1 className="font-bold text-3xl text-primary">Jobox Reception</h1>
+          <h1 className="font-bold text-3xl text-primary">JoboxHire Reception</h1>
         </Link>
+        </div>
+
 
         <div className="flex items-center gap-x-4">
           {isLoggedIn ? (

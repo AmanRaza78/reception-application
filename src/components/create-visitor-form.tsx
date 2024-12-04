@@ -26,43 +26,54 @@ export default function CreateVisitorForm() {
     <form action={formAction}>
       <CardHeader>
         <CardTitle>
-          Welcome
-          <span className="text-xl tracking-tighter text-primary">
-            Jobox Hire
-          </span>
+          Welcome To <span className="text-xl tracking-tighter text-primary">Jobox Hire</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-10">
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="title">Name</Label>
+          <Label htmlFor="name">Your Name</Label>
           <Input
             id="name"
             name="name"
             type="text"
-            placeholder="Name of the Visitor"
+            placeholder="Please Enter Your Name"
+            className="p-6"
             minLength={3}
           />
+          {state?.errors?.["name"]?.[0] && (
+            <p className="text-destructive">{state?.errors?.["name"]?.[0]}</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="smalldescription">Email</Label>
+          <Label htmlFor="email">Email</Label>
           <Input
             id="email"
             name="email"
             type="text"
-            placeholder="Email of the Visitor"
+            placeholder="Please Enter Your Email"
+            className="p-6"
+
             minLength={3}
           />
+          {state?.errors?.["email"]?.[0] && (
+            <p className="text-destructive">{state?.errors?.["email"]?.[0]}</p>
+          )}
         </div>
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="smalldescription">Phone Number</Label>
+          <Label htmlFor="phone">Phone Number</Label>
           <Input
             id="phone"
             name="phone"
             type="text"
-            placeholder="Phone Number"
+            placeholder="Please Enter your Phone Number"
+            className="p-6"
             minLength={3}
+            maxLength={10}
           />
+          {state?.errors?.["phone"]?.[0] && (
+            <p className="text-destructive">{state?.errors?.["phone"]?.[0]}</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-y-2">
@@ -72,12 +83,16 @@ export default function CreateVisitorForm() {
             name="tomeet"
             type="text"
             placeholder="Person you are visiting to.."
+            className="p-6"
             minLength={1}
           />
+          {state?.errors?.["tomeet"]?.[0] && (
+            <p className="text-destructive">{state?.errors?.["tomeet"]?.[0]}</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="address">Address</Label>
+          <Label htmlFor="address">Your Address</Label>
           <Textarea
             id="address"
             name="address"
@@ -85,17 +100,24 @@ export default function CreateVisitorForm() {
             maxLength={255}
             placeholder="Please enter your address"
           />
+          {state?.errors?.["address"]?.[0] && (
+            <p className="text-destructive">{state?.errors?.["address"]?.[0]}</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="smalldescription">Purpose</Label>
+          <Label htmlFor="purpose">Purpose</Label>
           <Input
             id="purpose"
             name="purpose"
             type="text"
             placeholder="Purpose of Visiting"
+            className="p-6"
             minLength={3}
           />
+          {state?.errors?.["purpose"]?.[0] && (
+            <p className="text-destructive">{state?.errors?.["purpose"]?.[0]}</p>
+          )}
         </div>
       </CardContent>
       <CardFooter>
