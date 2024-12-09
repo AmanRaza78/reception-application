@@ -30,6 +30,6 @@ export async function GET(){
         })
     }
 
-    return NextResponse.redirect(process.env.NODE_ENV==="development" ? "http://localhost:3000/": "https://joboxhire-reception.vercel.app/")
+    return NextResponse.redirect(process.env.NODE_ENV==="development" ? "http://localhost:3000/visitors/createvisitors": "https://joboxhire-reception.vercel.app/visitors/createvisitors")
 
 }

@@ -17,7 +17,7 @@ export type State = {
 
 const visitorSchema = z.object({
   name: z.string().min(3),
-  email: z.string().email(),
+  email: z.string().email().optional(),
   phone: z.string().min(10),
   address:z.string().min(3,{message:"Address is required"}).max(255,{message:"Address is too long"}),
   tomeet:z.string().optional(),
@@ -45,7 +45,7 @@ export async function createVisitor(prevState:any, formdata: FormData) {
 
   const parsedFields = visitorSchema.safeParse({
     name: formdata.get('name'),
-    email: formdata.get('email'),
+    email: formdata.get('email') || undefined, // Fix for optional field,
     phone: formdata.get('phone'),
     address: formdata.get('address'),
     tomeet: formdata.get('tomeet'),

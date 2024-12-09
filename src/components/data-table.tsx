@@ -37,9 +37,9 @@ export default async function DataTable({ query }: { query: string }) {
             <TableCell>{item.phone}</TableCell>
             <TableCell>{item.purpose}</TableCell>
             <TableCell>{item.token}</TableCell>
-            <TableCell>{item.checkIn.toLocaleString()}</TableCell>
+            <TableCell>{item.checkIn.toLocaleString("en-us", { timeZone: 'Asia/Kolkata' })}</TableCell>
             <TableCell>
-              {item.checkOut ? item.checkOut.toLocaleString() : "Checked-In"}
+              {item.checkOut ? item.checkOut.toLocaleString("en-us", { timeZone: 'Asia/Kolkata' }) : "Checked-In"}
             </TableCell>
             <TableCell>
               <CheckoutButton itemId={item.id} />

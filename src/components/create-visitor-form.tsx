@@ -53,8 +53,7 @@ export default function CreateVisitorForm() {
             type="text"
             placeholder="Please Enter Your Email"
             className="p-6"
-
-            minLength={3}
+            required={false}
           />
           {state?.errors?.["email"]?.[0] && (
             <p className="text-destructive">{state?.errors?.["email"]?.[0]}</p>
