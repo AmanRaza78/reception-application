@@ -31,7 +31,7 @@ export default function CreateVisitorForm() {
       </CardHeader>
       <CardContent className="flex flex-col gap-y-10">
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="name">Your Name</Label>
+          <Label htmlFor="name" className="text-xl">Your Name</Label>
           <Input
             id="name"
             name="name"
@@ -46,7 +46,7 @@ export default function CreateVisitorForm() {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email" className="text-xl">Email</Label>
           <Input
             id="email"
             name="email"
@@ -60,7 +60,7 @@ export default function CreateVisitorForm() {
           )}
         </div>
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="phone">Phone Number</Label>
+          <Label htmlFor="phone" className="text-xl">Phone Number</Label>
           <Input
             id="phone"
             name="phone"
@@ -76,7 +76,7 @@ export default function CreateVisitorForm() {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="tomeet">To Meet</Label>
+          <Label htmlFor="tomeet" className="text-xl">To Meet</Label>
           <Input
             id="tomeet"
             name="tomeet"
@@ -91,7 +91,7 @@ export default function CreateVisitorForm() {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="address">Your Address</Label>
+          <Label htmlFor="address" className="text-xl">Your Address</Label>
           <Textarea
             id="address"
             name="address"
@@ -105,7 +105,7 @@ export default function CreateVisitorForm() {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Label htmlFor="purpose">Purpose</Label>
+          <Label htmlFor="purpose" className="text-xl">Purpose</Label>
           <Input
             id="purpose"
             name="purpose"
